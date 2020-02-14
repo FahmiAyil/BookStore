@@ -4,7 +4,7 @@ import {
   TouchableOpacity,
   Text,
   View,
-  Image
+  ScrollView
 } from 'react-native';
 
 import { Icon } from 'react-native-elements'
@@ -13,8 +13,11 @@ const ListItem = ({ item, onDelete }) => {
   return (
     <TouchableOpacity style={ styles.listTouch }>
       <View style={ styles.rowList }>
-        <Text>{item.text}</Text>
-        <View>
+        <View style={styles.informations}>
+          <Text>{item.text}</Text>
+          <Text style={{ fontSize: 12, color: 'darkgrey' }}>Writer : {item.writer ? item.writer : '-'}</Text>
+        </View>
+        <View style={ styles.iconContainer }>
           <Icon
             style={styles.icon}
             name='times-circle'
@@ -39,6 +42,13 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between'
+  },
+  informations: {
+    flex: 1,
+    flexDirection: 'column'
+  },
+  iconContainer: {
+    justifyContent: 'center'
   }
 });
 

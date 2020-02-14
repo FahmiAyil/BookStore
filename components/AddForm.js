@@ -3,23 +3,45 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput
+  ScrollView
 } from 'react-native';
 
 import { Input, Button } from 'react-native-elements';
 
-const AddForm = ({ onSave }) => {
-  const [value, setValue] = useState('')
+const AddForm = ({ onSave, style }) => {
+  const [value, setValue] = useState("")
+  const [error, setError] = useState(false)
+
+  const [writer, setWriter] = useState("")
+
+  const saveText = () => {
+    if(value !== ""){
+      setError(false)
+      onSave(value, writer)
+      setValue("")
+      setWriter("")
+    } else {
+      setError(true)
+    }
+  }
 
   return (
-    <View style={{ marginBottom: 20 }}>
+    <View style={{ marginBottom: 20, ...style }}>
       <Input
-        placeholder='Input title of book'
+        placeholder='Input title of book ... '
         containerStyle={{ paddingVertical: 10 }}
         inputStyle={{ fontSize: 14 }}
         onChangeText={(e) => setValue(e)}
-        // errorStyle={{ color: 'red' }}
-        // errorMessage='ENTER A VALID ERROR HERE'
+        value={value}
+        errorStyle={{ color: 'red', display: error ? 'flex' : 'none' }}
+        errorMessage="Data harus diisi!"
+      />
+      <Input
+        placeholder='Input writer name ... '
+        containerStyle={{ paddingVertical: 10 }}
+        inputStyle={{ fontSize: 14 }}
+        onChangeText={(e) => setWriter(e)}
+        value={writer}
       />
       <Button
         icon={{
@@ -28,7 +50,7 @@ const AddForm = ({ onSave }) => {
           type:'font-awesome',
           color: "white"
         }}
-        onPress={() => onSave(value)}
+        onPress={() => saveText()}
       />
     </View>
   )

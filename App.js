@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
-  Text,
-  FlatList
+  FlatList,
+  ScrollView
 } from 'react-native';
 
+import { Button, ApplicationProvider } from '@ui-kitten/components';
+import { mapping, light as lightTheme } from '@eva-design/eva';
 import {uuid} from 'uuidv4'
 
 // components
@@ -25,21 +27,26 @@ const App = () => {
     })
   }
 
-  const saveItem = (value) => {
-    setListData([...listData, {id: uuid(), text: value}])
+  const saveItem = (value, writer) => {
+    setListData([...listData, {id: uuid(), text: value, writer}])
   }
 
   return (
-    <View>
-      <Header title="Book Store" />
-      <AddForm onSave={saveItem} />
-      <FlatList
-        data={listData}
-        renderItem={({ item }) => (
-          <ListItem item={item} onDelete={deleteItem} />
-        )}
-      />
-    </View>
+    <ApplicationProvider mapping={mapping} theme={lightTheme}>
+      <View style={{ flex: 1, flexDirection: 'column' }}>
+        <View>
+          <Header title="Book Store" />
+          <AddForm style={{ paddingHorizontal: 15 }} onSave={saveItem} />
+        </View>
+        <FlatList
+          data={listData}
+          renderItem={({ item }) => (
+            <ListItem item={item} onDelete={deleteItem} />
+          )}
+        />
+      </View>
+
+    </ApplicationProvider>
   )
 }
 
